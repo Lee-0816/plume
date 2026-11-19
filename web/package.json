@@ -1,0 +1,9 @@
+{
+  "name": "plume-editor",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Web editor layer of the Plume macOS Markdown editor",
+  "dependencies": {
+    "vditor": "3.11.2"
+  }
+}

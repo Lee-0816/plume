@@ -1,0 +1,383 @@
+/*
+ * Plume content theme. A clean, GitHub-flavoured document look with a light
+ * and a dark palette. Used by the editor, printing and HTML export.
+ */
+:root {
+  --plume-bg: #ffffff;
+  --plume-fg: #1f2328;
+  --plume-muted: #6e7781;
+  --plume-faint: #8c959f;
+  --plume-border: #e5e7eb;
+  --plume-heading: #111418;
+  --plume-link: #2f6fde;
+  --plume-accent: #2f6fde;
+  --plume-code-bg: #f3f4f6;
+  --plume-code-fg: #c7254e;
+  --plume-pre-bg: #f6f8fa;
+  --plume-quote: #57606a;
+  --plume-quote-bar: #d0d7de;
+  --plume-table-head: #f6f8fa;
+  --plume-table-stripe: #fafbfc;
+  --plume-mark: #fff3a3;
+  --plume-marker: #a0a7b1;
+  --plume-selection: rgba(47, 111, 222, 0.18);
+  --plume-font: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Helvetica Neue", "Microsoft YaHei", sans-serif;
+  --plume-mono: "SF Mono", ui-monospace, Menlo, Monaco, "JetBrains Mono", Consolas, monospace;
+  --plume-size: 16px;
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  --plume-bg: #1e1f22;
+  --plume-fg: #d4d7dc;
+  --plume-muted: #8b929b;
+  --plume-faint: #6b717a;
+  --plume-border: #34363b;
+  --plume-heading: #eceef1;
+  --plume-link: #6ea8ff;
+  --plume-accent: #6ea8ff;
+  --plume-code-bg: #2b2d31;
+  --plume-code-fg: #f08ba5;
+  --plume-pre-bg: #26282c;
+  --plume-quote: #9aa1aa;
+  --plume-quote-bar: #44474d;
+  --plume-table-head: #26282c;
+  --plume-table-stripe: #222428;
+  --plume-mark: #6b5b12;
+  --plume-marker: #6b717a;
+  --plume-selection: rgba(110, 168, 255, 0.25);
+  color-scheme: dark;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--plume-bg);
+  color: var(--plume-fg);
+  font-family: var(--plume-font);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: var(--plume-selection); }
+
+/* --------------------------------------------------------- editor chrome */
+
+#editor.vditor,
+.vditor {
+  border: 0 !important;
+  background: transparent;
+  --panel-background-color: var(--plume-bg);
+  --textarea-background-color: var(--plume-bg);
+  --toolbar-background-color: var(--plume-bg);
+  --border-color: var(--plume-border);
+}
+
+.vditor-toolbar { display: none !important; }
+.vditor-content { background: transparent; }
+.vditor-ir, .vditor-sv { background: transparent !important; }
+
+.vditor-ir pre.vditor-reset,
+.vditor-sv.vditor-reset {
+  background: transparent !important;
+  color: var(--plume-fg) !important;
+  min-height: calc(100vh - 20px);
+  box-sizing: border-box;
+  padding-top: 36px !important;
+  padding-bottom: 30vh !important;
+  caret-color: var(--plume-accent);
+}
+
+.vditor-ir pre.vditor-reset:focus,
+.vditor-sv:focus { background: transparent !important; }
+
+/* Source mode: monospace, comfortable width. */
+.vditor-sv.vditor-reset {
+  font-family: var(--plume-mono) !important;
+  font-size: calc(var(--plume-size) * 0.9) !important;
+  line-height: 1.75 !important;
+  max-width: 860px;
+  margin: 0 auto;
+  padding-left: 40px !important;
+  padding-right: 40px !important;
+}
+.vditor-sv .vditor-sv__marker,
+.vditor-sv .vditor-sv__marker--heading,
+.vditor-sv .vditor-sv__marker--bi,
+.vditor-sv .vditor-sv__marker--link { color: var(--plume-marker) !important; }
+.vditor-sv .vditor-sv__marker--heading { color: var(--plume-accent) !important; }
+
+/* Heading level badges in the margin: only for the heading being edited. */
+.vditor-ir .vditor-reset > h1:before, .vditor-ir .vditor-reset > h2:before,
+.vditor-ir .vditor-reset > h3:before, .vditor-ir .vditor-reset > h4:before,
+.vditor-ir .vditor-reset > h5:before, .vditor-ir .vditor-reset > h6:before {
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  color: var(--plume-faint) !important;
+}
+.vditor-ir .vditor-reset > .vditor-ir__node--expand:before { opacity: 1; }
+
+/* Syntax markers revealed around the caret in instant-rendering mode. */
+.vditor-ir .vditor-ir__marker {
+  color: var(--plume-marker) !important;
+  font-family: var(--plume-mono);
+  font-size: 0.88em;
+  font-weight: normal;
+}
+.vditor-ir .vditor-ir__marker--heading { color: var(--plume-faint) !important; }
+.vditor-ir .vditor-ir__marker--link { color: var(--plume-muted) !important; }
+.vditor-ir .vditor-ir__link { color: var(--plume-link) !important; text-decoration: none; }
+.vditor-ir .vditor-ir__node[data-type="a"] { cursor: text; }
+
+.vditor-ir .vditor-ir__preview {
+  cursor: pointer;
+  border-radius: 6px;
+}
+.vditor-ir .vditor-ir__node--expand .vditor-ir__preview {
+  border: 1px dashed var(--plume-border);
+  padding: 6px 8px;
+  margin-top: 6px;
+}
+.vditor-ir .vditor-ir__marker--pre {
+  background: var(--plume-pre-bg) !important;
+  border-radius: 6px;
+}
+.vditor-ir .vditor-ir__marker--pre code { color: var(--plume-fg) !important; }
+
+/* Hint / emoji / code-language popups. */
+.vditor-hint {
+  background: var(--plume-bg) !important;
+  border: 1px solid var(--plume-border) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.16) !important;
+  overflow: hidden;
+}
+.vditor-hint button { color: var(--plume-fg) !important; }
+.vditor-hint .vditor-hint--current,
+.vditor-hint button:not(.vditor-menu--disabled):hover {
+  background: var(--plume-selection) !important;
+  color: var(--plume-fg) !important;
+}
+.vditor-tip { z-index: 1000; }
+
+/* Focus mode: dim every block except the one being edited. */
+body.plume-focus .vditor-ir pre.vditor-reset > *,
+body.plume-focus .vditor-sv > * {
+  opacity: 0.28;
+  transition: opacity 0.18s ease;
+}
+body.plume-focus .vditor-ir pre.vditor-reset > .plume-active,
+body.plume-focus .vditor-sv > .plume-active { opacity: 1; }
+
+/* Typewriter mode: allow the caret line to sit in the middle. */
+body.plume-typewriter .vditor-ir pre.vditor-reset,
+body.plume-typewriter .vditor-sv { padding-bottom: 55vh !important; }
+
+/* ---------------------------------------------------------- content */
+
+.vditor-reset {
+  font-family: var(--plume-font);
+  font-size: var(--plume-size);
+  line-height: 1.75;
+  color: var(--plume-fg);
+  word-wrap: break-word;
+  font-variant-ligatures: no-common-ligatures;
+}
+
+.vditor-reset p,
+.vditor-reset ul,
+.vditor-reset ol,
+.vditor-reset blockquote,
+.vditor-reset table,
+.vditor-reset pre,
+.vditor-reset details,
+.vditor-reset dl { margin: 0 0 1em; }
+
+.vditor-reset h1, .vditor-reset h2, .vditor-reset h3,
+.vditor-reset h4, .vditor-reset h5, .vditor-reset h6 {
+  color: var(--plume-heading);
+  font-weight: 650;
+  line-height: 1.35;
+  margin: 1.6em 0 0.7em;
+  padding: 0;
+  border: 0;
+}
+.vditor-reset > h1:first-child, .vditor-reset > h2:first-child,
+.vditor-reset > h3:first-child { margin-top: 0.2em; }
+.vditor-reset h1 { font-size: 2.1em; font-weight: 700; padding-bottom: 0.3em; border-bottom: 1px solid var(--plume-border); }
+.vditor-reset h2 { font-size: 1.6em; padding-bottom: 0.25em; border-bottom: 1px solid var(--plume-border); }
+.vditor-reset h3 { font-size: 1.3em; }
+.vditor-reset h4 { font-size: 1.12em; }
+.vditor-reset h5 { font-size: 1em; }
+.vditor-reset h6 { font-size: 0.95em; color: var(--plume-muted); }
+
+.vditor-reset a { color: var(--plume-link); text-decoration: none; }
+.vditor-reset a:hover { text-decoration: underline; }
+
+.vditor-reset strong { font-weight: 650; color: var(--plume-heading); }
+.vditor-reset mark { background: var(--plume-mark); color: inherit; border-radius: 3px; padding: 0 2px; }
+.vditor-reset del, .vditor-reset s { color: var(--plume-muted); }
+
+.vditor-reset ul, .vditor-reset ol { padding-left: 1.8em; }
+.vditor-reset li { margin: 0.2em 0; }
+.vditor-reset li > p { margin: 0.2em 0; }
+.vditor-reset li > ul, .vditor-reset li > ol { margin: 0.1em 0; }
+.vditor-reset .vditor-task { list-style: none !important; }
+.vditor-reset .vditor-task input[type="checkbox"] {
+  margin: 0 0.45em 0 -1.35em;
+  vertical-align: middle;
+  width: 15px;
+  height: 15px;
+  accent-color: var(--plume-accent);
+}
+.vditor-reset .vditor-task--done > p { color: var(--plume-muted); text-decoration: line-through; }
+
+.vditor-reset blockquote {
+  margin-left: 0;
+  margin-right: 0;
+  padding: 0.1em 1em;
+  color: var(--plume-quote);
+  border-left: 4px solid var(--plume-quote-bar);
+  background: transparent;
+}
+.vditor-reset blockquote > :last-child { margin-bottom: 0; }
+
+.vditor-reset hr {
+  height: 2px;
+  border: 0;
+  background: var(--plume-border);
+  margin: 2em 0;
+}
+
+.vditor-reset code:not(.hljs):not(.highlight-chroma) {
+  font-family: var(--plume-mono);
+  font-size: 0.86em;
+  background: var(--plume-code-bg);
+  color: var(--plume-code-fg);
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  word-break: break-word;
+}
+
+.vditor-reset pre {
+  position: relative;
+  border-radius: 8px;
+}
+.vditor-reset pre > code,
+.vditor-reset pre code.hljs {
+  display: block;
+  font-family: var(--plume-mono) !important;
+  font-size: 0.86em !important;
+  line-height: 1.6;
+  background: var(--plume-pre-bg) !important;
+  color: var(--plume-fg);
+  padding: 14px 18px !important;
+  border-radius: 8px;
+  overflow-x: auto;
+  white-space: pre;
+  word-break: normal;
+  word-wrap: normal;
+  tab-size: 4;
+}
+
+.vditor-reset table {
+  display: table;
+  width: auto;
+  max-width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  overflow: auto;
+  word-break: keep-all;
+}
+.vditor-reset table th,
+.vditor-reset table td {
+  border: 1px solid var(--plume-border);
+  padding: 6px 13px;
+}
+.vditor-reset table thead tr,
+.vditor-reset table th { background: var(--plume-table-head); font-weight: 650; }
+.vditor-reset table tbody tr:nth-child(2n) { background: var(--plume-table-stripe); }
+.vditor-reset table tr { background: transparent; border: 0; }
+
+.vditor-reset img {
+  max-width: 100%;
+  border-radius: 4px;
+}
+
+.vditor-reset kbd {
+  font-family: var(--plume-mono);
+  font-size: 0.82em;
+  padding: 0.15em 0.45em;
+  border: 1px solid var(--plume-border);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  background: var(--plume-code-bg);
+  color: var(--plume-fg);
+}
+
+.vditor-reset .vditor-footnotes {
+  font-size: 0.9em;
+  color: var(--plume-muted);
+  border-top: 1px solid var(--plume-border);
+  margin-top: 2em;
+  padding-top: 1em;
+}
+
+.vditor-reset .vditor-toc {
+  border: 1px solid var(--plume-border);
+  border-radius: 8px;
+  padding: 0.6em 1em;
+  margin-bottom: 1em;
+}
+
+.vditor-reset .language-math,
+.vditor-reset .vditor-math { color: var(--plume-fg); }
+
+.vditor-reset details {
+  border: 1px solid var(--plume-border);
+  border-radius: 8px;
+  padding: 0.5em 1em;
+}
+.vditor-reset summary { cursor: pointer; font-weight: 600; }
+
+/* ---------------------------------------------------------- print */
+
+#print-root {
+  position: absolute;
+  left: -100000px;
+  top: 0;
+  width: 820px;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+@media print {
+  :root, :root[data-theme="dark"] {
+    --plume-bg: #ffffff;
+    --plume-fg: #1f2328;
+    --plume-muted: #57606a;
+    --plume-heading: #111418;
+    --plume-border: #d8dee4;
+    --plume-link: #2f6fde;
+    --plume-code-bg: #f3f4f6;
+    --plume-code-fg: #c7254e;
+    --plume-pre-bg: #f6f8fa;
+    --plume-quote: #57606a;
+    --plume-quote-bar: #d0d7de;
+    --plume-table-head: #f6f8fa;
+    --plume-table-stripe: #fafbfc;
+    --plume-mark: #fff3a3;
+  }
+  @page { margin: 18mm 16mm; }
+  html, body { background: #fff !important; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  #editor { display: none !important; }
+  #print-root {
+    position: static;
+    width: auto;
+    visibility: visible;
+    font-size: 11pt;
+  }
+  #print-root pre, #print-root blockquote, #print-root table, #print-root img { break-inside: avoid; }
+  #print-root h1, #print-root h2, #print-root h3 { break-after: avoid; }
+  #print-root pre > code { white-space: pre-wrap; }
+}

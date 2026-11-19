@@ -89,4 +89,6 @@ build/Plume.app/Contents/MacOS/Plume -PlumeAutomation "open:/path/a.md ;; menuke
 
 ## 许可
 
+Plume 的源码以 [MIT 许可证](LICENSE) 发布。
+
 编辑内核 Vditor 及其附带的第三方库遵循各自的许可证（见 `Plume.app/Contents/Resources/editor/vditor/LICENSE`）。
